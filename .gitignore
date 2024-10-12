@@ -1,0 +1,6 @@
+.pyc
+.vscode/*
+myapp/__pycache__/*
+myproject/__pycache__/*
+.cpython
+myapp/migrations/__pycache__/*
