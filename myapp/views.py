@@ -14,24 +14,25 @@ from asgiref.sync import async_to_sync
 from pathlib import Path
 import json
 from . import instagram
+from . import tiktok
 
 
 output = Path(__file__).parent / "results"
 output.mkdir(exist_ok=True)
 
 # Serializer to handle incoming URL data
-class URLSerializer(serializers.Serializer):
+class InsSerializer(serializers.Serializer):
     url = serializers.URLField(
         default='https://www.instagram.com/p/C_9l_-cTFJV/?igsh=N2Mwd3JyOWYzamFl',
     )
 
-class ProcessURLView(APIView):
+class ScrapeIns(APIView):
     @swagger_auto_schema(
-        request_body=URLSerializer,
-        responses={200: openapi.Response('URL processed', URLSerializer)}
+        request_body=InsSerializer,
+        responses={200: openapi.Response('URL processed', InsSerializer)}
     )
     def post(self, request):
-        serializer = URLSerializer(data=request.data)
+        serializer = InsSerializer(data=request.data)
         if serializer.is_valid():
             url = serializer.validated_data.get('url')
             # You can add more logic to process the URL here
@@ -46,6 +47,30 @@ class ProcessURLView(APIView):
                 return Response({"error": "Invalid URL"}, status=status.HTTP_400_BAD_REQUEST)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class TiktokSerializer(serializers.Serializer):
+    url = serializers.URLField(
+        default="https://www.tiktok.com/@oddanimalspecimens/video/7198206283571285294",
+    )
+class ScrapeTiktok(APIView):
+    @swagger_auto_schema(
+        request_body=TiktokSerializer,
+        responses={200: openapi.Response('URL processed', TiktokSerializer)}
+    )
+    def post(self, request):
+        serializer = TiktokSerializer(data=request.data)
+        if serializer.is_valid():
+            url = serializer.validated_data.get('url')
+            # You can add more logic to process the URL here
+            if validators.url(url):
+                # Perform your custom logic here
+                print("running TikTok scrape and saving results to ./results directory")
+                # sync_to_async
+                post_data = async_to_sync(tiktok.scrape_post_with_httpx)(url)
+                output.joinpath("tiktok-post-use-httpx-with-parse-post-function.json").write_text(json.dumps(post_data, indent=2, ensure_ascii=False), encoding='utf-8')
+                return Response({"message": "URL is valid", "result": post_data}, status=status.HTTP_200_OK)
+            else:
+                return Response({"error": "Invalid URL"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 class ItemListCreate(generics.ListCreateAPIView):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
