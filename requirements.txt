@@ -10,3 +10,4 @@ scrapfly_sdk==0.8.18
 validators==0.18.2
 gunicorn==23.0.0
 drf_yasg==1.21.7
+httpx[http2]==0.27.2
