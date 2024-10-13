@@ -49,7 +49,7 @@ class ScrapeIns(APIView):
 
 class TiktokSerializer(serializers.Serializer):
     url = serializers.URLField(
-        default="https://www.tiktok.com/@oddanimalspecimens/video/7198206283571285294",
+        default="https://www.tiktok.com/@simple.home.edit/video/7309754078010051841?q=recipe%20blogger&t=1728859828193",
     )
 class ScrapeTiktok(APIView):
     @swagger_auto_schema(
