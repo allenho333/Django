@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-%b#tce@d!&$gt8n!gz-x$$izf+=444!)m4dzu(i_zehtrottxe"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -83,10 +83,10 @@ DATABASES = {
     }
 }
 
-SWAGGER_SETTINGS = {
-    'ENABLE_CORS': True,
-    'CORS_WHITELIST': ['http://localhost:8000', 'https://django-production-fd7a.up.railway.app'],
-}
+# SWAGGER_SETTINGS = {
+#     'ENABLE_CORS': True,
+#     'CORS_WHITELIST': ['http://localhost:8000', 'https://django-production-fd7a.up.railway.app'],
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
