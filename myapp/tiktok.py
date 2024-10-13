@@ -100,7 +100,7 @@ async def scrape_post_with_httpx(url:str) -> Dict:
 
         # Parse the response and extract post data
         post_data = parse_post_with_httpx(response)
-
+        print('tiktok post_data',post_data)
         log.success(f"Successfully scraped post from: {url}")
         return post_data
     except Exception as e:

@@ -68,7 +68,10 @@ class ScrapeTiktok(APIView):
         # sync_to_async
         post_data = async_to_sync(tiktok.scrape_post_with_httpx)(url)
         output.joinpath("tiktok-post-use-httpx-with-parse-post-function.json").write_text(json.dumps(post_data, indent=2, ensure_ascii=False), encoding='utf-8')
-        return Response({"message": "URL is valid", "result": post_data}, status=status.HTTP_200_OK)
+        if(post_data):
+            return Response({"message": "URL is valid", "result": post_data}, status=status.HTTP_200_OK)
+        else:
+            return Response({"message": "fail to parse"}, status=status.HTTP_400_BAD_REQUEST)
             # else:
             #     return Response({"error": "Invalid URL"}, status=status.HTTP_400_BAD_REQUEST)
         # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
