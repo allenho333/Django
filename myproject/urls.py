@@ -42,6 +42,8 @@ schema_view = get_schema_view(
     ),
     public=True,
     permission_classes=(permissions.AllowAny,),
+	# Here, you explicitly define the available schemes
+    # urlconf='https://',
 )
 
 urlpatterns = [

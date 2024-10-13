@@ -36,10 +36,12 @@ SESSION_COOKIE_SECURE = True
 SECURE_HSTS_SECONDS = 3600
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
-
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 SWAGGER_SETTINGS = {
-    'USE_HTTPS': True
+    'DEFAULT_API_URL': 'https://django-production-fd7a.up.railway.app/api/',
+    'USE_HTTPS': True,
+	'SCHEMES': ['https'],  # Only allow HTTPS scheme
 }
 # Application definition
 
