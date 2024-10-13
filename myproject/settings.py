@@ -27,8 +27,20 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 CORS_ALLOW_ALL_ORIGINS = True
+# Ensure secure cookies are used
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+# Redirect all HTTP traffic to HTTPS
+SECURE_SSL_REDIRECT = True
+SECURE_HSTS_SECONDS = 3600
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
 
 
+SWAGGER_SETTINGS = {
+    'USE_HTTPS': True
+}
 # Application definition
 
 INSTALLED_APPS = [
@@ -42,6 +54,7 @@ INSTALLED_APPS = [
 	'rest_framework',
 	'drf_yasg',
 	'corsheaders',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -87,10 +100,6 @@ DATABASES = {
     }
 }
 
-# SWAGGER_SETTINGS = {
-#     'ENABLE_CORS': True,
-#     'CORS_WHITELIST': ['http://localhost:8000', 'https://django-production-fd7a.up.railway.app'],
-# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
