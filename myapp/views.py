@@ -35,17 +35,17 @@ class ScrapeIns(APIView):
         serializer = InsSerializer(data=request.data)
         if serializer.is_valid():
             url = serializer.validated_data.get('url')
-            # You can add more logic to process the URL here
-            if validators.url(url):
-                # Perform your custom logic here
-                print("running Instagram scrape and saving results to ./results directory")
-                # sync_to_async
-                post_multi_image = async_to_sync(instagram.scrape_post_with_httpx)(url)
-                output.joinpath("food-multi-image-post-use-httpx-with-parse-post-function.json").write_text(json.dumps(post_multi_image, indent=2, ensure_ascii=False), encoding='utf-8')
-                return Response({"message": "URL is valid", "result": post_multi_image}, status=status.HTTP_200_OK)
-            else:
-                return Response({"error": "Invalid URL"}, status=status.HTTP_400_BAD_REQUEST)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        #     # You can add more logic to process the URL here
+        #     if validators.url(url):
+        #         # Perform your custom logic here
+        print("running Instagram scrape and saving results to ./results directory")
+        # sync_to_async
+        post_multi_image = async_to_sync(instagram.scrape_post_with_httpx)(url)
+        output.joinpath("food-multi-image-post-use-httpx-with-parse-post-function.json").write_text(json.dumps(post_multi_image, indent=2, ensure_ascii=False), encoding='utf-8')
+        return Response({"message": "URL is valid", "result": post_multi_image}, status=status.HTTP_200_OK)
+            # else:
+            #     return Response({"error": "Invalid URL"}, status=status.HTTP_400_BAD_REQUEST)
+        # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class TiktokSerializer(serializers.Serializer):
     url = serializers.URLField(
@@ -60,17 +60,18 @@ class ScrapeTiktok(APIView):
         serializer = TiktokSerializer(data=request.data)
         if serializer.is_valid():
             url = serializer.validated_data.get('url')
-            # You can add more logic to process the URL here
-            if validators.url(url):
+        #     print('url',url)
+        #     # You can add more logic to process the URL here
+        #     if validators.url(url):
                 # Perform your custom logic here
-                print("running TikTok scrape and saving results to ./results directory")
-                # sync_to_async
-                post_data = async_to_sync(tiktok.scrape_post_with_httpx)(url)
-                output.joinpath("tiktok-post-use-httpx-with-parse-post-function.json").write_text(json.dumps(post_data, indent=2, ensure_ascii=False), encoding='utf-8')
-                return Response({"message": "URL is valid", "result": post_data}, status=status.HTTP_200_OK)
-            else:
-                return Response({"error": "Invalid URL"}, status=status.HTTP_400_BAD_REQUEST)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        print("running TikTok scrape and saving results to ./results directory")
+        # sync_to_async
+        post_data = async_to_sync(tiktok.scrape_post_with_httpx)(url)
+        output.joinpath("tiktok-post-use-httpx-with-parse-post-function.json").write_text(json.dumps(post_data, indent=2, ensure_ascii=False), encoding='utf-8')
+        return Response({"message": "URL is valid", "result": post_data}, status=status.HTTP_200_OK)
+            # else:
+            #     return Response({"error": "Invalid URL"}, status=status.HTTP_400_BAD_REQUEST)
+        # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 class ItemListCreate(generics.ListCreateAPIView):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
